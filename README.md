@@ -6,9 +6,16 @@ sets.
 
 ## Documentation Sets
 
-All documentation sets listed here are stored in the `docsets` directory:
+All documentation sets are stored in the `docsets` directory. You may find
+`docsets` under the folder `guia` in your OS local config directory.
 
-- [Ghostty](https://ghostty.org);
+Value on Linux/Redox                                                   | Value on Windows                  | Value on macOS                              |
+| ---------------------------------------------------------------------- |-----------------------------------| ------------------------------------------- |
+| `Some($XDG_CONFIG_HOME)`        or `Some($HOME`/.config`)`             | `Some({FOLDERID_LocalAppData})`   | `Some($HOME`/Library/Application Support`)` |
+
+As of now, you will need to install desired documentation sets manually, but
+we are working on a feature to allow you to install documentation sets from
+web using `guia`.
 
 ## License
 
