@@ -1,7 +1,6 @@
 [
   {
     "name": "bun",
-    "url": "https://github.com/sveltejs/svelte/tree/main/documentation/docs",
     "folders": [
       {
         "name": "api",
