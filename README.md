@@ -4,18 +4,38 @@ Take a look at your favorite project documentation without leaving the terminal.
 Guia is a simple command line tool that allows you to read offline documentation
 sets.
 
+## How to use
+
+To display a documentation set, you can use the following command:
+
+```sh
+guia bun 
+```
+
+To download a supported documentation set, you can use the following command:
+
+```sh
+guia add bun
+```
+
 ## Documentation Sets
+
+### Supported documentation sets
+
+- Bun
+
+### Stores
 
 All documentation sets are stored in the `docsets` directory. You may find
 `docsets` under the folder `guia` in your OS local config directory.
 
-Value on Linux/Redox                                                   | Value on Windows                  | Value on macOS                              |
-| ---------------------------------------------------------------------- |-----------------------------------| ------------------------------------------- |
-| `Some($XDG_CONFIG_HOME)`        or `Some($HOME`/.config`)`             | `Some({FOLDERID_LocalAppData})`   | `Some($HOME`/Library/Application Support`)` |
+- Linux/Redox: `Some($XDG_CONFIG_HOME)` or `Some($HOME/.config)`;
+- macOS: `Some($HOME/Library/Application Support)`;
+- Windows: `Some({FOLDERID_LocalAppData})`;
 
-As of now, you will need to install desired documentation sets manually, but
-we are working on a feature to allow you to install documentation sets from
-web using `guia`.
+`guia` reads `docsets` to display the available docs. As of now,
+you may need to install desired documentation sets manually,
+since we have just a few of them officially supported.
 
 ## License
 
