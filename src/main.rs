@@ -19,7 +19,14 @@ fn main() {
             }
         }
     } else if let Some(doc_name) = matches.get_one::<String>("documentation") {
-        let files = get_files_from_docsets(&format!("{}/{}", docsets_path.display(), doc_name));
+        let doc_path = format!("{}/{}", docsets_path.display(), doc_name);
+
+        if !std::path::Path::new(&doc_path).exists() {
+            eprintln!("No documentation entry for {}", doc_name);
+            std::process::exit(1);
+        }
+
+        let files = get_files_from_docsets(&doc_path);
         let selected_file = select_file(files.clone());
 
         let selected_file_path = files.iter()
