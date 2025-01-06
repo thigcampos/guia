@@ -11,13 +11,19 @@ const DOCSETS_PATH_NAME: &str = "docsets";
 
 fn build_cli() -> ClapCommand {
     ClapCommand::new(APP_NAME)
-        .version("0.1.0")
-        .author("Thiago Campos")
+        .bin_name(APP_NAME)
         .about("Get your the documentation of your favortite software without leaving the terminal.")
+        .arg(
+            Arg::new("add")
+                .help("Add a documentation set")
+                .long("add")
+                .value_name("DOC_NAME")
+                .required(false),
+        )
         .arg(
             Arg::new("documentation")
                 .help("The name of the documentation folder to load")
-                .required(true)
+                .required(false)
                 .index(1),
         )
 }
