@@ -1,7 +1,15 @@
 [package]
 name = "guia"
-version = "0.1.0"
+license = "MIT"
 edition = "2021"
+version = "0.1.0"
+rust-version = "1.83"
+build = "build/main.rs"
+categories = ["command-line-utilities"]
+authors = ["Thiago Campos <guia@thigcampos.com>"]
+description = "A documentation browser for the terminal"
+homepage = "https://github.com/thigcampos/guia"
+repository = "https://github.com/thigcampos/guia"
 
 [dependencies]
 dirs = "5.0"
