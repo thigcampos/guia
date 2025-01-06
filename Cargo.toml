@@ -4,7 +4,6 @@ license = "MIT"
 edition = "2021"
 version = "0.1.0"
 rust-version = "1.83"
-build = "build/main.rs"
 categories = ["command-line-utilities"]
 authors = ["Thiago Campos <guia@thigcampos.com>"]
 description = "A documentation browser for the terminal"
