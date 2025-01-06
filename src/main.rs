@@ -61,10 +61,9 @@ fn main() {
     let docsets_path = get_docsets_path();
     let doc_name = matches.get_one::<String>("documentation").unwrap();
     let doc_path = docsets_path.join(doc_name);
-    println!("Opening documentation for '{}' in {}", doc_name,doc_path.display());
 
     if !std::path::Path::new(&doc_path).exists() {
-        eprintln!("Error: Documentation folder '{}' does not exist!", doc_name);
+        eprintln!("No documentation entry for {}", doc_name);
         std::process::exit(1);
     }
 
