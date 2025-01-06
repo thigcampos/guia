@@ -11,10 +11,12 @@ fn main() {
     let matches = build_cli().get_matches();
     let docsets_path = get_docsets_path();
 
-    if let Some(doc_name) = matches.get_one::<String>("add") {
-        if let Err(e) = add_docset(doc_name, &docsets_path) {
-            eprintln!("Failed to download documentation: {}", e);
-            std::process::exit(1);
+    if let Some(matches) = matches.subcommand_matches("add") {
+        if let Some(doc_name) = matches.get_one::<String>("DOC_NAME") {
+            if let Err(e) = add_docset(doc_name, &docsets_path) {
+                eprintln!("Failed to download documentation: {}", e);
+                std::process::exit(1);
+            }
         }
     } else if let Some(doc_name) = matches.get_one::<String>("documentation") {
         let files = get_files_from_docsets(&format!("{}/{}", docsets_path.display(), doc_name));
