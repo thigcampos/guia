@@ -39,8 +39,8 @@ fn get_docsets_path() -> PathBuf {
     docsets_path
 }
 
-fn get_files_from_docsets(docsets_path: &str) -> Vec<String> {
-    let mut docs = Vec::new();
+fn get_files_from_docsets(docsets_path: &str) -> Vec<(String, String)> {
+    let mut files = Vec::new();
 
     for entry in WalkDir::new(docsets_path)
         .into_iter()
@@ -49,16 +49,19 @@ fn get_files_from_docsets(docsets_path: &str) -> Vec<String> {
         {
             if entry.path() != Path::new(docsets_path) {
                 if let Some(name) = entry.path().file_name() {
-                    docs.push(name.to_string_lossy().to_string());
+                    let filename = name.to_string_lossy().to_string();
+                    let filepath = entry.path().to_string_lossy().to_string();
+                    files.push((filename, filepath));
                 }
             }
         }
-    docs
+    files
 }
 
-fn select_file(files: Vec<String>) -> String {
-    let prompt = Select::new("Select a file", files);
-    prompt.prompt().expect("Failed to get user input")
+fn select_file(files: Vec<(String, String)>) -> String {
+    let file_options: Vec<String> = files.iter().map(|(name, _)| name.clone()).collect();
+    let prompt = Select::new("Select a file", file_options).prompt().expect("Failed to get user input");
+    prompt
 }
 
 fn main() {
@@ -74,10 +77,15 @@ fn main() {
     }
 
     let files = get_files_from_docsets(&format!("{}", doc_path.display()));
-    let selected_file = select_file(files);
+    let selected_file = select_file(files.clone());
+
+    let selected_file_path = files.iter()
+        .find(|(name, _)| name == &selected_file)
+        .map(|(_, path)| path)
+        .expect("Selected file not found");
 
     Command::new("less")
-        .arg(format!("{}/{}", doc_path.display(), selected_file))
+        .arg(&selected_file_path)
         .status()
         .expect("Failed to open documentation");
 }
