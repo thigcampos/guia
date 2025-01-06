@@ -34,16 +34,16 @@ guia add bun
 
 ### Supported documentation sets
 
-- Bun
+- Bun: Api;
 
-### Stores
+### Documentation sets location
 
 All documentation sets are stored in the `docsets` directory. You may find
 `docsets` under the folder `guia` in your OS local config directory.
 
-- Linux/Redox: `Some($XDG_CONFIG_HOME)` or `Some($HOME/.config)`;
-- macOS: `Some($HOME/Library/Application Support)`;
-- Windows: `Some({FOLDERID_LocalAppData})`;
+- Linux/Redox: `$XDG_CONFIG_HOME` or `$HOME/.config`;
+- macOS: `$HOME/Library/Application Support`;
+- Windows: `{FOLDERID_LocalAppData}`;
 
 `guia` reads `docsets` to display the available docs. As of now,
 you may need to install desired documentation sets manually,
