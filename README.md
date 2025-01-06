@@ -14,6 +14,7 @@ sets.
 
 ```sh
 curl -sSL https://raw.githubusercontent.com/thigcampos/guia/main/install.sh | bash -
+```
 
 ## How to use
 
