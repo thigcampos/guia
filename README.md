@@ -4,6 +4,17 @@ Take a look at your favorite project documentation without leaving the terminal.
 Guia is a simple command line tool that allows you to read offline documentation
 sets.
 
+## Install
+
+### Requirements
+
+- cargo;
+
+### Command
+
+```sh
+curl -sSL https://raw.githubusercontent.com/thigcampos/guia/main/install.sh | bash -
+
 ## How to use
 
 To display a documentation set, you can use the following command:
