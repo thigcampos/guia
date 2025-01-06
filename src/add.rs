@@ -39,5 +39,7 @@ pub fn add_docset(docset_name: &str, docset_path: &Path) -> Result<(), Box<dyn s
         }
     }
 
+    println!("Downloaded documentation for '{}'", docset_name);
+
     Ok(())
 }
