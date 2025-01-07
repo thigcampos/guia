@@ -2,10 +2,13 @@ mod cli;
 mod read;
 mod add;
 
+use std::env::var;
 use std::process::Command;
 use cli::build_cli;
 use read::{get_docsets_path, get_files_from_docsets, select_file};
 use add::add_docset;
+
+const RENDER_VAR: &str = "GUIA_MARKDOWN";
 
 fn main() {
     let matches = build_cli().get_matches();
@@ -34,7 +37,9 @@ fn main() {
             .map(|(_, path)| path)
             .expect("Selected file not found");
 
-        Command::new("less")
+        let guia_render = var(RENDER_VAR).unwrap_or_else(|_| "less".to_string());
+
+        Command::new(guia_render)
             .arg(&selected_file_path)
             .status()
             .expect("Failed to open documentation");

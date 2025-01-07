@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Define Config Directory
 get_config_dir() {
   case "$(uname)" in
   Linux | Redox)
@@ -18,6 +19,8 @@ get_config_dir() {
   esac
 }
 
+# INSTALL GUIA
+# If cargo is not installed, exit
 if ! command -v cargo &>/dev/null; then
   echo "cargo could not be found. Please install Rust and Cargo from https://www.rust-lang.org/tools/install and try again."
   exit 1
@@ -25,15 +28,18 @@ fi
 
 cargo install guia
 
+# ADD DOCSETS
 config_dir=$(get_config_dir)
-
 mkdir -p "$config_dir"
-
+# Download docsets.json from GitHub
 curl -L -o "$config_dir/docsets.json" "https://raw.githubusercontent.com/thigcampos/guia/main/docsets.json"
-
 if [ $? -ne 0 ]; then
   echo "Failed to download docsets.json"
   exit 1
 fi
 
-echo "Installation completed. docsets.json moved to $config_dir"
+# ADD GUIA ENVIRONMENT VARIABLES
+# Less is the default renderer since it is the most common
+export GUIA_MARKDOWN=less
+
+echo "Installation completed."

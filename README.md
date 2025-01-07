@@ -30,6 +30,17 @@ To download a supported documentation set, you can use the following command:
 guia add bun
 ```
 
+## Change Markdown renderer
+
+Guia uses `less` as the default markdown renderer, since it's available
+in widely used systems, with a few exceptions, most notably Windows.
+
+If you want to use a different markdown renderer, you assign a new value to `GUIA_MARKDOWN`
+
+```sh
+export GUIA_MARKDOWN="glow" # Recommended markdown renderer
+```
+
 ## Documentation Sets
 
 ### Supported documentation sets
