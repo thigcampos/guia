@@ -45,7 +45,7 @@ export GUIA_MARKDOWN="glow" # Recommended markdown renderer
 
 ### Supported documentation sets
 
-- Bun: Api;
+- Bun;
 
 ### Documentation sets location
 
