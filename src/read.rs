@@ -35,6 +35,30 @@ pub fn get_docsets_path() -> PathBuf {
     docsets_path
 }
 
+pub fn get_topics_from_docsets(docsets_path: &str) -> Vec<String> {
+    let mut topics = Vec::new();
+
+    for entry in WalkDir::new(docsets_path)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.metadata().map(|m| m.is_dir()).unwrap_or(false)) 
+        {
+            if entry.path() != Path::new(docsets_path) {
+                if let Some(name) = entry.path().file_name() {
+                    let filename = name.to_string_lossy().to_string();
+                    topics.push(filename);
+                }
+            }
+        }
+    topics
+}
+
+pub fn select_topic(topics: Vec<String>) -> String {
+    let file_options: Vec<String> = topics.iter().map(|name| name.clone()).collect();
+    let prompt = Select::new("Select a topic", file_options).prompt().expect("Failed to get user input");
+    prompt
+}
+
 pub fn get_files_from_docsets(docsets_path: &str) -> Vec<(String, String)> {
     let mut files = Vec::new();
 

@@ -5,7 +5,7 @@ mod add;
 use std::env::var;
 use std::process::Command;
 use cli::build_cli;
-use read::{get_docsets_path, get_files_from_docsets, select_file};
+use read::{get_docsets_path, get_files_from_docsets, select_file, select_topic, get_topics_from_docsets};
 use add::add_docset;
 
 const RENDER_VAR: &str = "GUIA_MARKDOWN";
@@ -29,7 +29,11 @@ fn main() {
             std::process::exit(1);
         }
 
-        let files = get_files_from_docsets(&doc_path);
+        let topics = get_topics_from_docsets(&doc_path);
+        let selected_topic = select_topic(topics.clone());
+
+        let topic_path = format!("{}/{}", doc_path, selected_topic);
+        let files = get_files_from_docsets(&topic_path);
         let selected_file = select_file(files.clone());
 
         let selected_file_path = files.iter()
@@ -37,10 +41,14 @@ fn main() {
             .map(|(_, path)| path)
             .expect("Selected file not found");
 
-        let guia_render = var(RENDER_VAR).unwrap_or_else(|_| "less".to_string());
+        let guia_render = var(RENDER_VAR).unwrap_or("less".to_string());
+        let mut command_parts = guia_render.split_whitespace();
+        let command = command_parts.next().expect("No command provided");
+        let command_args = command_parts.collect::<Vec<&str>>();
 
-        Command::new(guia_render)
+        Command::new(command)
             .arg(&selected_file_path)
+            .args(command_args)
             .status()
             .expect("Failed to open documentation");
     } else if matches.subcommand_matches("list").is_some() {
