@@ -1,12 +1,12 @@
+mod add;
 mod cli;
 mod read;
-mod add;
 
-use std::env::var;
-use std::process::Command;
+use add::add_docset;
 use cli::build_cli;
 use read::*;
-use add::add_docset;
+use std::env::var;
+use std::process::Command;
 
 const RENDER_VAR: &str = "GUIA_MARKDOWN";
 
@@ -40,7 +40,8 @@ fn main() {
         let files = get_files_from_docsets(&topic_path);
         let selected_file = select_file(files.clone());
 
-        let selected_file_path = files.iter()
+        let selected_file_path = files
+            .iter()
             .find(|(name, _)| name == &selected_file)
             .map(|(_, path)| path)
             .expect("Selected file not found");

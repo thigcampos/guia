@@ -1,10 +1,14 @@
-use std::path::{Path};
+use super::read::Docset;
+use reqwest::blocking::Client;
 use std::fs::{self, File};
 use std::io::Write;
-use reqwest::blocking::Client;
-use super::read::{Docset};
+use std::path::Path;
 
-pub fn download_file(client: &Client, url: &str, dest_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+pub fn download_file(
+    client: &Client,
+    url: &str,
+    dest_path: &Path,
+) -> Result<(), Box<dyn std::error::Error>> {
     let response = client.get(url).send()?;
 
     if !response.status().is_success() {
@@ -24,7 +28,9 @@ pub fn add_docset(docset_name: &str, docset_path: &Path) -> Result<(), Box<dyn s
     let docsets_file = File::open(&docsets_file_path)?;
     let docsets: Vec<Docset> = serde_json::from_reader(docsets_file)?;
 
-    let docset = docsets.into_iter().find(|d| d.name == docset_name)
+    let docset = docsets
+        .into_iter()
+        .find(|d| d.name == docset_name)
         .ok_or_else(|| format!("No documentation entry for '{}' in docsets", docset_name))?;
 
     let client = Client::new();

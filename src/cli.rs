@@ -1,4 +1,4 @@
-use clap::{Command, Arg};
+use clap::{Arg, Command};
 
 pub const APP_NAME: &str = "guia";
 
@@ -7,18 +7,15 @@ pub fn build_cli() -> Command {
         .bin_name(APP_NAME)
         .subcommand(
             Command::new("add")
-            .about("Download a documentation set")
-            .arg(
-                Arg::new("DOC_NAME")
-                .help("The name of the documentation set to download")
-                .value_name("DOC_NAME")
-                .required(false),
-            ),
+                .about("Download a documentation set")
+                .arg(
+                    Arg::new("DOC_NAME")
+                        .help("The name of the documentation set to download")
+                        .value_name("DOC_NAME")
+                        .required(false),
+                ),
         )
-        .subcommand(
-            Command::new("list")
-            .about("List all documentation sets")
-        )
+        .subcommand(Command::new("list").about("List all documentation sets"))
         .arg(
             Arg::new("documentation")
                 .help("Documentation to open")
