@@ -18,6 +18,12 @@ curl -sSL https://raw.githubusercontent.com/thigcampos/guia/main/install.sh | ba
 
 ## How to use
 
+To list all documentation sets available in your system, you can use the following command:
+
+```sh
+guia list
+```
+
 To display a documentation set, you can use the following command:
 
 ```sh
