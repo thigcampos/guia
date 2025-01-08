@@ -2,10 +2,8 @@ name: Cargo Build & Release
 
 on:
   push:
-    branches:
-      - "main"
     tags:
-      - "v*.*.*"
+      - "*"
 
 jobs:
   build-linux:
@@ -72,19 +70,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: x86_64-unknown-linux-gnu
-          path: ./release
+          path: ./release/x86_64-unknown-linux-gnu
 
       - name: Download aarch64-apple-darwin
         uses: actions/download-artifact@v3
         with:
           name: aarch64-apple-darwin
-          path: ./release
+          path: ./release/aarch64-apple-darwin
 
       - name: Download x86_64-apple-darwin
         uses: actions/download-artifact@v3
         with:
           name: x86_64-apple-darwin
-          path: ./release
+          path: ./release/x86_64-apple-darwin
 
       - name: Create Release
         id: create_release
@@ -104,7 +102,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release/x86_64-unknown-linux-gnu/guia
-          asset_name: x86_64-unknown-linux-gnu
+          asset_name: guia-x86_64-unknown-linux-gnu
           asset_content_type: application/octet-stream
 
       - name: Upload aarch64-apple-darwin
@@ -114,7 +112,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release/aarch64-apple-darwin/guia
-          asset_name: aarch64-apple-darwin
+          asset_name: guia-aarch64-apple-darwin
           asset_content_type: application/octet-stream
 
       - name: Upload x86_64-apple-darwin
@@ -124,5 +122,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release/x86_64-apple-darwin/guia
-          asset_name: x86_64-apple-darwin
+          asset_name: guia-x86_64-apple-darwin
           asset_content_type: application/octet-stream
