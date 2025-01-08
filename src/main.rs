@@ -30,7 +30,11 @@ fn main() {
         }
 
         let topics = get_topics_from_docsets(&doc_path);
-        let selected_topic = select_topic(topics.clone());
+        let mut selected_topic = String::new();
+
+        if !topics.is_empty() {
+            selected_topic = select_topic(topics.clone());
+        }
 
         let topic_path = format!("{}/{}", doc_path, selected_topic);
         let files = get_files_from_docsets(&topic_path);
