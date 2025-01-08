@@ -6,14 +6,29 @@ sets.
 
 ## Install
 
-### Requirements
+### cURL
 
+#### Requirements
+
+- rustup;
 - cargo;
-
-### Command
 
 ```sh
 curl -sSL https://raw.githubusercontent.com/thigcampos/guia/main/install.sh | bash -
+```
+
+### Homebrew (macOS-only)
+
+Guia is now available on Homebrew. You can install it using the following command:
+
+```sh
+brew install guia
+```
+
+If any issues arise, try to run the following command:
+
+```sh
+brew tap thigcampos/guia
 ```
 
 ## How to use
