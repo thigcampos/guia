@@ -5,74 +5,86 @@ on:
     branches:
       - "main"
     tags:
-      - "*"
+      - "v*.*.*"
 
 jobs:
-  build:
-    runs-on: ${{ matrix.system.os }}
+  build-linux:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        system:
-          - { target: x86_64-apple-darwin, os: macos-latest }
-          - { target: aarch64-apple-darwin, os: macos-latest }
-          - { target: x86_64-unknown-linux-gnu, os: ubuntu-latest }
-          - { target: aarch64-unknown-linux-gnu, os: ubuntu-latest }
+        target:
+          - x86_64-unknown-linux-gnu
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          profile: minimal
-          override: true
+          target: ${{ matrix.target }}
 
-      - name: Cache cargo
-        uses: actions/cache@v4
+      - name: Install dependencies
+        run: sudo apt-get install -y gcc
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: |
-            ~/.cargo/bin
-            ~/.cargo/registry
-            ~/.cargo/git
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+          name: ${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/guia
 
-      - name: Build project
-        run: cargo build --release --target ${{ matrix.system.target }}
+  build-apple:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - x86_64-apple-darwin
 
-      - name: Package build
-        run: |
-          mkdir -p dist
-          cp target/release/guia dist/
-        env:
-          CARGO_TARGET_DIR: target
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Upload release assets
-        uses: actions/upload-artifact@v4
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-          name: ${{ matrix.system.target }}
-          path: dist/
+          toolchain: stable
+          target: ${{ matrix.target }}
 
-  publish:
-    needs: build
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/guia
+
+  release:
+    needs: [build-linux, build-apple]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Download x86_64-unknown-linux-gnu
+        uses: actions/download-artifact@v3
+        with:
+          name: x86_64-unknown-linux-gnu
+          path: ./release
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Download aarch64-apple-darwin
+        uses: actions/download-artifact@v3
         with:
-          name: ubuntu-latest-release
-          path: dist/ubuntu
-      - name: Download macOS build artifacts
-        uses: actions/download-artifact@v4
+          name: aarch64-apple-darwin
+          path: ./release
+
+      - name: Download x86_64-apple-darwin
+        uses: actions/download-artifact@v3
         with:
-          name: macos-latest-release
-          path: dist/macos
+          name: x86_64-apple-darwin
+          path: ./release
 
       - name: Create Release
         id: create_release
@@ -85,12 +97,32 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload build to Release
+      - name: Upload x86_64-unknown-linux-gnu
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/${{ matrix.system.target }}/guia
-          asset_name: ${{ matrix.system.target }},
+          asset_path: ./release/x86_64-unknown-linux-gnu/guia
+          asset_name: x86_64-unknown-linux-gnu
+          asset_content_type: application/octet-stream
+
+      - name: Upload aarch64-apple-darwin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/aarch64-apple-darwin/guia
+          asset_name: aarch64-apple-darwin
+          asset_content_type: application/octet-stream
+
+      - name: Upload x86_64-apple-darwin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/x86_64-apple-darwin/guia
+          asset_name: x86_64-apple-darwin
           asset_content_type: application/octet-stream
