@@ -30,16 +30,21 @@ To download a supported documentation set, you can use the following command:
 guia add bun
 ```
 
-## Change Markdown renderer
+## Markdown renderer
 
 Guia uses `less` as the default markdown renderer, since it's available
 in widely used systems, with a few exceptions, most notably Windows.
 
-If you want to use a different markdown renderer, you assign a new value to `GUIA_MARKDOWN`
+If you want to use a different markdown renderer, you must assign a new value to `GUIA_MARKDOWN`.
+You're free to choose any command-line tool or application that can handle markdown files, including,
+but not limited to, `cat`, `vim`, `code`, `more`, and etc.
 
 ```sh
 export GUIA_MARKDOWN="glow" # Recommended markdown renderer
 ```
+
+> Disclaimer: [Glow](https://github.com/charmbracelet/glow) is an external dependency, so you need to install it manually.
+It is not distributed or related with Guia.
 
 ## Documentation Sets
 
@@ -62,6 +67,6 @@ since we have just a few of them officially supported.
 
 ## License
 
-Guia it's released under the MIT license. See [LICENSE](LICENSE) for more information.
-However, projects documentation may not be under the MIT license, so please
-check the project's documentation license before using it.
+Guia it's released under the MIT license. However, projects documentation
+may not be under the MIT license, so please check the project's documentation
+license before using it. See [LICENSE](LICENSE) for more information.
