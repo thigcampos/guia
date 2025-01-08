@@ -5,7 +5,7 @@ mod add;
 use std::env::var;
 use std::process::Command;
 use cli::build_cli;
-use read::{get_docsets_path, get_files_from_docsets, select_file, select_topic, get_topics_from_docsets};
+use read::*;
 use add::add_docset;
 
 const RENDER_VAR: &str = "GUIA_MARKDOWN";
@@ -52,9 +52,10 @@ fn main() {
             .status()
             .expect("Failed to open documentation");
     } else if matches.subcommand_matches("list").is_some() {
-        let docs = get_files_from_docsets(&format!("{}", docsets_path.display()));
+        let docs = get_docs_from_docsets(&format!("{}", docsets_path.display()));
+        println!("Available documentation sets:");
         for doc in docs {
-            println!("{}", doc.0);
+            println!("{}", doc);
         }
     }
 }

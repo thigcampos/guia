@@ -35,6 +35,25 @@ pub fn get_docsets_path() -> PathBuf {
     docsets_path
 }
 
+pub fn get_docs_from_docsets(docsets_path: &str) -> Vec<String> {
+    let mut docs = Vec::new();
+
+    for entry in WalkDir::new(docsets_path)
+        .max_depth(1)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.metadata().map(|m| m.is_dir()).unwrap_or(false)) 
+        {
+            if entry.path() != Path::new(docsets_path) {
+                if let Some(name) = entry.path().file_name() {
+                    let filename = name.to_string_lossy().to_string();
+                    docs.push(filename);
+                }
+            }
+        }
+    docs
+}
+
 pub fn get_topics_from_docsets(docsets_path: &str) -> Vec<String> {
     let mut topics = Vec::new();
 

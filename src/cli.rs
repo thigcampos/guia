@@ -15,6 +15,10 @@ pub fn build_cli() -> Command {
                 .required(false),
             ),
         )
+        .subcommand(
+            Command::new("list")
+            .about("List all documentation sets")
+        )
         .arg(
             Arg::new("documentation")
                 .help("Documentation to open")
