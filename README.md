@@ -19,21 +19,21 @@ curl -sSL https://raw.githubusercontent.com/thigcampos/guia/main/install.sh | ba
 
 ### Homebrew (macOS-only)
 
-Guia is now available on Homebrew. You can install it using the following command:
-
-```sh
-brew install guia
-```
-
-If any issues arise, try to run the following command:
+Guia is now available on Homebrew as a Tap. You can install
+it using the following command:
 
 ```sh
 brew tap thigcampos/guia
 ```
 
+```sh
+brew install guia
+```
+
 ## How to use
 
-To list all documentation sets available in your system, you can use the following command:
+To list all documentation sets available in your system,
+you can use the following command:
 
 ```sh
 guia list
