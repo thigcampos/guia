@@ -52,7 +52,7 @@ fn main() {
         let command_args = command_parts.collect::<Vec<&str>>();
 
         Command::new(command)
-            .arg(&selected_file_path)
+            .arg(selected_file_path)
             .args(command_args)
             .status()
             .expect("Failed to open documentation");

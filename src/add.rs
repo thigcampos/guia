@@ -36,7 +36,7 @@ pub fn add_docset(docset_name: &str, docset_path: &Path) -> Result<(), Box<dyn s
     let client = Client::new();
 
     for folder in docset.folders {
-        let folder_path = docset_path.join(&docset_name).join(&folder.name);
+        let folder_path = docset_path.join(docset_name).join(&folder.name);
         fs::create_dir_all(&folder_path)?;
 
         for file in folder.files {

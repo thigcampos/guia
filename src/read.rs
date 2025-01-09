@@ -75,8 +75,7 @@ pub fn get_topics_from_docsets(docsets_path: &str) -> Vec<String> {
 }
 
 pub fn select_topic(topics: Vec<String>) -> String {
-    let file_options: Vec<String> = topics.iter().map(|name| name.clone()).collect();
-    let prompt = Select::new("Select a topic", file_options)
+    let prompt = Select::new("Select a topic", topics)
         .prompt()
         .expect("Failed to get user input");
     prompt
