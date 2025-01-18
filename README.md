@@ -69,9 +69,12 @@ It is not distributed or related with Guia.
 
 ## Documentation Sets
 
-### Supported documentation sets
+We had an important changes of plans regarding the documentation sets. We withdraw the goal of 
+having a centralized index of documentation sets, since it would require a lot of 
+effort to maintain it. Instead, we are focusing on the tool itself, and we are providing 
+an utility tool to help you manage your documentation sets.
 
-- Bun;
+Check [docsets](https://github.com/thigcampos/docsets) for more information.
 
 ### Documentation sets location
 
