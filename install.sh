@@ -32,7 +32,7 @@ cargo install guia
 config_dir=$(get_config_dir)
 mkdir -p "$config_dir"
 # Download docsets.json from GitHub
-curl -L -o "$config_dir/docsets.json" "https://raw.githubusercontent.com/thigcampos/guia/main/docsets.json"
+curl -L -o "$config_dir/docsets.json" "https://raw.githubusercontent.com/thigcampos/docsets/main/docsets.json"
 if [ $? -ne 0 ]; then
   echo "Failed to download docsets.json"
   exit 1
