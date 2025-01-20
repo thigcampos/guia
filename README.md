@@ -64,6 +64,7 @@ but not limited to, `cat`, `vim`, `code`, `more`, and etc.
 export GUIA_MARKDOWN="glow" # Recommended markdown renderer
 ```
 
+> ![WARNING]
 > Disclaimer: [Glow](https://github.com/charmbracelet/glow) is an external dependency, so you need to install it manually.
 It is not distributed or related with Guia.
 
@@ -85,12 +86,6 @@ All documentation sets are stored in the `docsets` directory. You may find
 - macOS: `$HOME/Library/Application Support`;
 - Windows: `{FOLDERID_LocalAppData}`;
 
-`guia` reads `docsets` to display the available docs. As of now,
-you may need to install desired documentation sets manually,
-since we have just a few of them officially supported.
-
 ## License
 
-Guia it's released under the MIT license. However, projects documentation
-may not be under the MIT license, so please check the project's documentation
-license before using it. See [LICENSE](LICENSE) for more information.
+Guia it's released under the MIT license. See [LICENSE](LICENSE) for more information.
