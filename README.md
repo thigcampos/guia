@@ -63,8 +63,7 @@ but not limited to, `cat`, `vim`, `code`, `more`, and etc.
 ```sh
 export GUIA_MARKDOWN="glow" # Recommended markdown renderer
 ```
-
-> ![WARNING]
+  
 > Disclaimer: [Glow](https://github.com/charmbracelet/glow) is an external dependency, so you need to install it manually.
 It is not distributed or related with Guia.
 
