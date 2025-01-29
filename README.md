@@ -88,4 +88,4 @@ All documentation sets are stored in the `docsets` directory. You may find
 
 ## License
 
-Guia it's released under the MIT license. See [LICENSE](LICENSE) for more information.
+Guia it's released under the GNU GPLv3 license. See [LICENSE](LICENSE) for more information.
