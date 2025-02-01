@@ -1,21 +1,12 @@
 [package]
 name = "guia"
-license = "MIT"
 edition = "2021"
-version = "0.1.4"
+version = "0.2.0"
 rust-version = "1.83"
-categories = ["command-line-utilities"]
-authors = ["Thiago Campos <guia@thigcampos.com>"]
-description = "A documentation browser for the terminal"
 homepage = "https://github.com/thigcampos/guia"
 repository = "https://github.com/thigcampos/guia"
+authors = ["Thiago Campos <commit@thigcampos.com>"]
+description = "Guia - A documentation browser for the terminal"
 
 [dependencies]
-dirs = "5.0"
-clap = "4.5"
-inquire = "0.7"
-walkdir = "2.5"
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-reqwest = { version = "0.12", features = ["blocking", "json"] }
-
+clap = { version = "4.5.27", features = ["derive"] }

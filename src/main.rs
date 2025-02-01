@@ -1,66 +1,66 @@
-mod add;
-mod cli;
-mod read;
+use clap::Parser;
+use clap::Subcommand;
 
-use add::add_docset;
-use cli::build_cli;
-use read::*;
-use std::env::var;
-use std::process::Command;
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+#[command(arg_required_else_help = true)]
+struct Guia {
+    /// Documentation to be opened
+    documentation_name: Option<String>,
 
-const RENDER_VAR: &str = "GUIA_MARKDOWN";
+    #[command(subcommand)]
+    command: Option<Commands>,
+}
+
+#[derive(Subcommand, Debug)]
+enum Commands {
+    /// Adds a documentation to your local environment
+    Add {
+        /// Documentation set to be added
+        documentation_name: String,
+    },
+    /// List all documentations available
+    List {
+        /// Documentations available locally
+        #[arg(short, long)]
+        local: bool,
+    },
+}
 
 fn main() {
-    let matches = build_cli().get_matches();
-    let docsets_path = get_docsets_path();
+    let guia = Guia::parse();
 
-    if let Some(matches) = matches.subcommand_matches("add") {
-        if let Some(doc_name) = matches.get_one::<String>("DOC_NAME") {
-            if let Err(e) = add_docset(doc_name, &docsets_path) {
-                eprintln!("Failed to download documentation: {}", e);
-                std::process::exit(1);
+    if let Some(doc_to_be_read) = guia.documentation_name.as_deref() {
+        read_doc(doc_to_be_read)
+    }
+
+    match &guia.command {
+        Some(Commands::Add { documentation_name }) => add_doc(documentation_name),
+
+        Some(Commands::List { local }) => {
+            if *local {
+                list_local_docs()
+            } else {
+                list_all_docs()
             }
         }
-    } else if let Some(doc_name) = matches.get_one::<String>("documentation") {
-        let doc_path = format!("{}/{}", docsets_path.display(), doc_name);
 
-        if !std::path::Path::new(&doc_path).exists() {
-            eprintln!("No documentation entry for {}", doc_name);
-            std::process::exit(1);
-        }
-
-        let topics = get_topics_from_docsets(&doc_path);
-        let mut selected_topic = String::new();
-
-        if !topics.is_empty() {
-            selected_topic = select_topic(topics.clone());
-        }
-
-        let topic_path = format!("{}/{}", doc_path, selected_topic);
-        let files = get_files_from_docsets(&topic_path);
-        let selected_file = select_file(files.clone());
-
-        let selected_file_path = files
-            .iter()
-            .find(|(name, _)| name == &selected_file)
-            .map(|(_, path)| path)
-            .expect("Selected file not found");
-
-        let guia_render = var(RENDER_VAR).unwrap_or("less".to_string());
-        let mut command_parts = guia_render.split_whitespace();
-        let command = command_parts.next().expect("No command provided");
-        let command_args = command_parts.collect::<Vec<&str>>();
-
-        Command::new(command)
-            .arg(selected_file_path)
-            .args(command_args)
-            .status()
-            .expect("Failed to open documentation");
-    } else if matches.subcommand_matches("list").is_some() {
-        let docs = get_docs_from_docsets(&format!("{}", docsets_path.display()));
-        println!("Available documentation sets:");
-        for doc in docs {
-            println!("{}", doc);
-        }
+        None => {}
     }
+}
+
+fn read_doc(doc_name: &str) {
+    println!("{doc_name} will be read");
+}
+
+fn add_doc(doc_name: &str) {
+    println!("{doc_name} will be added");
+}
+
+fn list_all_docs() {
+    println!("All documentations");
+}
+
+fn list_local_docs() {
+    println!("All local documentations");
 }
