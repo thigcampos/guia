@@ -10,3 +10,10 @@ description = "Guia - A documentation browser for the terminal"
 
 [dependencies]
 clap = { version = "4.5.27", features = ["derive"] }
+
+[profile.release]
+lto = true 
+strip = true
+panic = "abort"
+opt-level = "z"
+codegen-units = 1
