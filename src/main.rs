@@ -1,5 +1,8 @@
+mod dirs;
+
 use clap::Parser;
 use clap::Subcommand;
+use dirs::*;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -25,6 +28,8 @@ enum Commands {
         #[arg(short, long)]
         local: bool,
     },
+    /// Prepare local enviroment to host documentations
+    Setup,
 }
 
 fn main() {
@@ -45,6 +50,8 @@ fn main() {
             }
         }
 
+        Some(Commands::Setup) => setup_guia(),
+
         None => {}
     }
 }
@@ -63,4 +70,18 @@ fn list_all_docs() {
 
 fn list_local_docs() {
     println!("All local documentations");
+}
+
+fn setup_guia() {
+    println!("Setting up local environment...");
+    let guia_docs = guia_docs_path();
+
+    if !guia_docs.exists() {
+        println!("Creating {} directory...", guia_docs.display());
+        std::fs::create_dir_all(&guia_docs).expect("Failed to create directory in {guia_docs}");
+    } else {
+        println!("Found Guia's config directory in {}", guia_docs.display());
+    }
+
+    println!("Enviroment ready!");
 }
